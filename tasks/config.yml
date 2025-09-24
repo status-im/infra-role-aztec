@@ -1,0 +1,29 @@
+---
+- name: Create service directories
+  file:
+    path:  '{{ item }}'
+    state: 'directory'
+    owner: 'dockremap'
+    group: 'docker'
+    mode:  '0750'
+  with_items:
+    - '{{ aztec_service_path }}'
+    - '{{ aztec_cont_data_vol }}'
+    - '{{ aztec_cont_keystore_vol }}'
+
+- name: 'Create environment file'
+  template:
+    src:   'app.env.j2'
+    dest:  '{{ aztec_service_path }}/app.env'
+    owner: 'dockremap'
+    group: 'docker'
+    mode:  '0664'
+
+- name: 'Create keystore file'
+  register: aztec_keystore
+  template:
+    src:   'keystore.json.j2'
+    dest:  '{{ aztec_cont_keystore_vol }}/keystore.json'
+    owner: 'dockremap'
+    group: 'docker'
+    mode:  '0600'

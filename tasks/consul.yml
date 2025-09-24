@@ -1,0 +1,22 @@
+---
+- name: Create Consul service definition
+  include_role: name=infra-role-consul-service
+  vars:
+    consul_config_name:                      '{{ aztec_consul_config_name }}'
+    consul_default_check_disabled:           '{{ aztec_consul_check_disabled }}'
+    consul_default_check_interval:           '{{ aztec_consul_check_interval }}'
+    consul_default_check_timeout:            '{{ aztec_consul_check_timeout }}'
+    consul_default_success_before_passing:   '{{ aztec_consul_success_before_passing }}'
+    consul_default_failures_before_warning:  '{{ aztec_consul_failures_before_warning }}'
+    consul_default_failures_before_critical: '{{ aztec_consul_failures_before_critical }}'
+    consul_services:
+      - id:      '{{ aztec_service_name }}'
+        name:    '{{ aztec_consul_service_name }}'
+        tags:    '{{ aztec_consul_tags }}'
+        port:    '{{ aztec_api_port }}'
+        address: '{{ ansible_local.wireguard.address }}'
+        checks:
+          - id:   '{{ aztec_consul_service_name }}-api-health'
+            name: 'Aztec Sequence API Healthcheck'
+            type: 'http'
+            http: 'http://localhost:{{ aztec_api_port }}/health'

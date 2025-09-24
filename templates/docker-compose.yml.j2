@@ -1,0 +1,26 @@
+---
+services:
+  node:
+    container_name: '{{ aztec_cont_name }}'
+    image: '{{ aztec_cont_image }}'
+    restart: 'always'
+    ports:
+      - '{{ aztec_api_addr }}:{{ aztec_api_port }}:{{ aztec_api_port }}/tcp'
+      - '{{ aztec_libp2p_addr }}:{{ aztec_libp2p_port }}:{{ aztec_libp2p_port }}/tcp'
+      - '{{ aztec_libp2p_addr }}:{{ aztec_libp2p_port }}:{{ aztec_libp2p_port }}/udp'
+    volumes:
+      - '{{ aztec_cont_data_vol }}:/data'
+      - '{{ aztec_cont_keystore_vol }}:/keystore'
+    env_file: '{{ aztec_service_path }}/app.env'
+    entrypoint: |
+      node /usr/src/yarn-project/aztec/dest/bin/index.js
+    command: |
+      start
+      --node
+      --archiver
+      --sequencer
+      --network={{ aztec_network }}
+    healthcheck:
+      test: ["CMD", "curl", "-sSf", "--fail-with-body", "http://127.0.0.1:{{ aztec_api_port }}/health"]
+      interval: 30s
+      retries: 3

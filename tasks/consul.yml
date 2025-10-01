@@ -19,4 +19,4 @@
           - id:   '{{ aztec_consul_service_name }}-api-health'
             name: 'Aztec Sequence API Healthcheck'
             type: 'http'
-            http: 'http://localhost:{{ aztec_api_port }}/health'
+            http: 'http://localhost:{{ aztec_api_port }}/status'

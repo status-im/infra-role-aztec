@@ -12,10 +12,16 @@ exporters:
 
 processors:
   batch:
+  resource/label_cleanup:
+    attributes:
+      - action: delete
+        key: 'service.instance.id'
+      - action: delete
+        key: 'service.name'
 
 service:
   pipelines:
     metrics:
-      receivers: [otlp]
-      exporters:
-        - prometheus
+      receivers: ['otlp']
+      processors: ['resource/label_cleanup', 'batch']
+      exporters: ['prometheus']

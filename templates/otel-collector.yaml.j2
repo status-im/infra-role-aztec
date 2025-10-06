@@ -1,0 +1,21 @@
+# vim: ft=yaml
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: '0.0.0.0:{{ aztec_exp_cont_otlp_port }}'
+
+exporters:
+  prometheus:
+    endpoint: '0.0.0.0:{{ aztec_exp_cont_metrics_port }}'
+    metric_expiration: 5m
+
+processors:
+  batch:
+
+service:
+  pipelines:
+    metrics:
+      receivers: [otlp]
+      exporters:
+        - prometheus

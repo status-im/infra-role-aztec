@@ -8,8 +8,8 @@
     mode:  '0750'
   with_items:
     - '{{ aztec_service_path }}'
-    - '{{ aztec_cont_data_vol }}'
-    - '{{ aztec_cont_keystore_vol }}'
+    - '{{ aztec_node_cont_data_vol }}'
+    - '{{ aztec_node_cont_keystore_vol }}'
 
 - name: 'Create environment file'
   template:
@@ -19,11 +19,20 @@
     group: 'docker'
     mode:  '0664'
 
+- name: 'Create exporter config file'
+  register: exporter_config
+  template:
+    src:   'otel-collector.yaml.j2'
+    dest:  '{{ aztec_service_path }}/otel-collector.yaml'
+    owner: 'dockremap'
+    group: 'docker'
+    mode:  '0664'
+
 - name: 'Create keystore file'
   register: aztec_keystore
   template:
     src:   'keystore.json.j2'
-    dest:  '{{ aztec_cont_keystore_vol }}/keystore.json'
+    dest:  '{{ aztec_node_cont_keystore_vol }}/keystore.json'
     owner: 'dockremap'
     group: 'docker'
     mode:  '0600'

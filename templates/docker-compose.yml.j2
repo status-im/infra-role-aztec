@@ -1,19 +1,19 @@
 ---
 services:
   node:
-    container_name: '{{ aztec_cont_name }}'
-    image: '{{ aztec_cont_image }}'
+    container_name: '{{ aztec_node_cont_name }}'
+    image: '{{ aztec_node_cont_image }}'
     restart: 'always'
-{% if aztec_cont_networks %}
-    networks: {{ aztec_cont_networks | to_json }}
+{% if aztec_node_cont_networks %}
+    networks: {{ aztec_node_cont_networks | to_json }}
 {% endif %}
     ports:
       - '{{ aztec_api_addr }}:{{ aztec_api_port }}:{{ aztec_api_port }}/tcp'
       - '{{ aztec_libp2p_addr }}:{{ aztec_libp2p_port }}:{{ aztec_libp2p_port }}/tcp'
       - '{{ aztec_libp2p_addr }}:{{ aztec_libp2p_port }}:{{ aztec_libp2p_port }}/udp'
     volumes:
-      - '{{ aztec_cont_data_vol }}:/data'
-      - '{{ aztec_cont_keystore_vol }}:/keystore'
+      - '{{ aztec_node_cont_data_vol }}:/data'
+      - '{{ aztec_node_cont_keystore_vol }}:/keystore'
     env_file: '{{ aztec_service_path }}/app.env'
     entrypoint: |
       node /usr/src/yarn-project/aztec/dest/bin/index.js
@@ -28,9 +28,25 @@ services:
       interval: 30s
       retries: 3
 
-{% if aztec_cont_networks != [] %}
+  exporter:
+    container_name: '{{ aztec_exp_cont_name }}'
+    image: '{{ aztec_exp_cont_image }}'
+    restart: always
+{% if aztec_node_cont_networks %}
+    networks: {{ aztec_node_cont_networks | to_json }}
+{% endif %}
+    ports:
+      - '{{ aztec_exp_cont_metrics_port }}:{{ aztec_exp_cont_metrics_port }}/tcp'
+      - '{{ aztec_exp_cont_otlp_port }}:{{ aztec_exp_cont_otlp_port }}/tcp'
+    volumes:
+      - '{{ aztec_service_path }}/otel-collector.yaml:/etc/otel-collector.yaml'
+    environment: {}
+    command: |
+      --config=/etc/otel-collector.yaml
+
+{% if aztec_node_cont_networks != [] %}
 networks:
-{% for network in aztec_cont_networks %}
+{% for network in aztec_node_cont_networks %}
   {{ network }}:
     external: true
 {% endfor %}

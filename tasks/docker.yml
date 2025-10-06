@@ -1,5 +1,5 @@
 ---
-- name: 'Create compose file: {{ aztec_cont_name }}'
+- name: 'Create compose file'
   template:
     src: 'docker-compose.yml.j2'
     dest: '{{ aztec_service_path }}/docker-compose.yml'
@@ -7,9 +7,12 @@
     group: docker
     mode: 0664
 
-- name: 'Create container: {{ aztec_cont_name }}'
+- name: 'Create containers'
   community.docker.docker_compose_v2:
     project_src: '{{ aztec_service_path }}'
     recreate: '{{ compose_recreate }}'
     pull: '{{ compose_pull }}'
-    state: '{{ "restarted" if aztec_keystore.changed else compose_state }}'
+    state: >-
+      {{ "restarted"
+         if aztec_keystore.changed or exporter_config.changed
+         else compose_state }}

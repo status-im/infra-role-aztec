@@ -20,13 +20,20 @@ aztec_libp2p_port: 40400
 aztec_api_addr: '127.0.0.1'
 aztec_api_port: 7070
 
-# Container
-aztec_cont_version: '2.0.3'
-aztec_cont_name: '{{ aztec_service_name }}'
-aztec_cont_image: 'aztecprotocol/aztec:{{ aztec_cont_version }}'
-aztec_cont_data_vol: '{{ aztec_service_path }}/data'
-aztec_cont_keystore_vol: '{{ aztec_service_path }}/keystore'
-aztec_cont_networks: []
+# App Container
+aztec_node_cont_version: '2.0.3'
+aztec_node_cont_name: '{{ aztec_service_name }}-node'
+aztec_node_cont_image: 'aztecprotocol/aztec:{{ aztec_node_cont_version }}'
+aztec_node_cont_data_vol: '{{ aztec_service_path }}/data'
+aztec_node_cont_keystore_vol: '{{ aztec_service_path }}/keystore'
+aztec_node_cont_networks: []
+# Exporter Container
+aztec_exp_cont_version: '0.136.0'
+aztec_exp_cont_name: '{{ aztec_service_name }}-exporter'
+aztec_exp_cont_image: 'otel/opentelemetry-collector:{{ aztec_exp_cont_version }}'
+aztec_exp_cont_config_vol: '{{ aztec_service_path }}/config'
+aztec_exp_cont_otlp_port: 4318
+aztec_exp_cont_metrics_port: 8889
 
 # Consul Service
 aztec_consul_config_name: '{{ aztec_service_name | replace("-", "_") }}'

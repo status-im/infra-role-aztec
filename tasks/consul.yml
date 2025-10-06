@@ -20,3 +20,14 @@
             name: 'Aztec Sequence API Healthcheck'
             type: 'http'
             http: 'http://localhost:{{ aztec_api_port }}/status'
+
+      - id:      '{{ aztec_exp_cont_name }}'
+        name:    '{{ aztec_consul_service_name }}-exporter'
+        tags:    '{{ aztec_consul_tags + ["metrics"] }}'
+        port:    '{{ aztec_exp_cont_metrics_port }}'
+        address: '{{ ansible_local.wireguard.address }}'
+        checks:
+          - id:   '{{ aztec_consul_service_name }}-exporter-health'
+            name: 'Aztec Sequence Exporter Healthcheck'
+            type: 'http'
+            http: 'http://localhost:{{ aztec_exp_cont_metrics_port }}/metrics'

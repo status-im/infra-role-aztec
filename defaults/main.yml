@@ -26,6 +26,7 @@ aztec_cont_name: '{{ aztec_service_name }}'
 aztec_cont_image: 'aztecprotocol/aztec:{{ aztec_cont_version }}'
 aztec_cont_data_vol: '{{ aztec_service_path }}/data'
 aztec_cont_keystore_vol: '{{ aztec_service_path }}/keystore'
+aztec_cont_networks: []
 
 # Consul Service
 aztec_consul_config_name: '{{ aztec_service_name | replace("-", "_") }}'

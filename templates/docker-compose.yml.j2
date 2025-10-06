@@ -4,6 +4,9 @@ services:
     container_name: '{{ aztec_cont_name }}'
     image: '{{ aztec_cont_image }}'
     restart: 'always'
+{% if aztec_cont_networks %}
+    networks: {{ aztec_cont_networks | to_json }}
+{% endif %}
     ports:
       - '{{ aztec_api_addr }}:{{ aztec_api_port }}:{{ aztec_api_port }}/tcp'
       - '{{ aztec_libp2p_addr }}:{{ aztec_libp2p_port }}:{{ aztec_libp2p_port }}/tcp'
@@ -24,3 +27,11 @@ services:
       test: ["CMD", "curl", "-sSf", "--fail-with-body", "http://127.0.0.1:{{ aztec_api_port }}/health"]
       interval: 30s
       retries: 3
+
+{% if aztec_cont_networks != [] %}
+networks:
+{% for network in aztec_cont_networks %}
+  {{ network }}:
+    external: true
+{% endfor %}
+{% endif %}

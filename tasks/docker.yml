@@ -3,9 +3,9 @@
   template:
     src: 'docker-compose.yml.j2'
     dest: '{{ aztec_service_path }}/docker-compose.yml'
-    owner: dockremap
-    group: docker
-    mode: 0664
+    owner: 'dockremap'
+    group: 'docker'
+    mode: '0o664'
 
 - name: 'Create containers'
   community.docker.docker_compose_v2:

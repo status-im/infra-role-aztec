@@ -30,7 +30,7 @@ aztec_node_cont_networks: []
 # Exporter Container
 aztec_exp_cont_version: '0.136.0'
 aztec_exp_cont_name: '{{ aztec_service_name }}-exporter'
-aztec_exp_cont_image: 'otel/opentelemetry-collector-contrib:{{ aztec_exp_cont_version }}'
+aztec_exp_cont_image: 'otel/opentelemetry-collector:{{ aztec_exp_cont_version }}'
 aztec_exp_cont_config_vol: '{{ aztec_service_path }}/config'
 aztec_exp_cont_otlp_port: 4318
 aztec_exp_cont_metrics_port: 8889

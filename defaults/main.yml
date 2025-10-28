@@ -20,6 +20,7 @@ aztec_libp2p_addr: '0.0.0.0'
 aztec_libp2p_port: 40400
 aztec_api_addr: '127.0.0.1'
 aztec_api_port: 7070
+aztec_admin_port: 7770
 
 # App Container
 aztec_node_cont_version: '2.0.4'

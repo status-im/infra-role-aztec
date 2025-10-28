@@ -9,6 +9,7 @@ services:
 {% endif %}
     ports:
       - '{{ aztec_api_addr }}:{{ aztec_api_port }}:{{ aztec_api_port }}/tcp'
+      - '{{ aztec_api_addr }}:{{ aztec_admin_port }}:{{ aztec_admin_port }}/tcp'
       - '{{ aztec_libp2p_addr }}:{{ aztec_libp2p_port }}:{{ aztec_libp2p_port }}/tcp'
       - '{{ aztec_libp2p_addr }}:{{ aztec_libp2p_port }}:{{ aztec_libp2p_port }}/udp'
     volumes:

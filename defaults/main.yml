@@ -5,6 +5,7 @@ aztec_service_path: '/docker/{{ aztec_service_name }}'
 # General
 aztec_network: 'testnet'
 aztec_log_level: 'info'
+aztec_extra_env_vars: {}
 
 # Required
 aztec_ethereum_hosts: []

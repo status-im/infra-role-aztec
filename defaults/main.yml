@@ -23,7 +23,7 @@ aztec_api_port: 7070
 aztec_admin_port: 7770
 
 # App Container
-aztec_node_cont_version: '2.0.4'
+aztec_node_cont_version: '2.1.4'
 aztec_node_cont_name: '{{ aztec_service_name }}-node'
 aztec_node_cont_image: 'aztecprotocol/aztec:{{ aztec_node_cont_version }}'
 aztec_node_cont_data_vol: '{{ aztec_service_path }}/data'

@@ -10,9 +10,8 @@ aztec_extra_env_vars: {}
 # Required
 aztec_ethereum_hosts: []
 aztec_l1_consensus_host_urls: []
-#aztec_attester_private_key: ~
-#aztec_publisher_private_key: ~
-#aztec_coinbase_address: ~
+#aztec_attester_eth_private_key: ~
+#aztec_attester_bls_private_key: ~
 #aztec_fee_recipient_address: ~
 
 # Ports
